@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/12 22:04:04 by vdarmaya          #+#    #+#             */
-/*   Updated: 2017/01/13 16:21:29 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2017/01/14 00:12:15 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	echo_env(char *str, t_env *env, char nflag)
 	}
 }
 
-void		echo(char **av, t_env *env)
+void	echo(char **av, t_env *env)
 {
 	char	nflag;
 

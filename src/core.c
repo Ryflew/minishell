@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/10 21:16:56 by vdarmaya          #+#    #+#             */
-/*   Updated: 2017/01/13 22:58:30 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2017/01/15 16:27:54 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ char	go_builtins(char **av, t_env **env)
 	if (!ft_strcmp(av[0], "echo"))
 		echo(av, *env);
 	else if (!ft_strcmp(av[0], "cd"))
-		return (1);
+		cd(av, *env);
 	else if (!ft_strcmp(av[0], "setenv"))
 		set_env(av, env);
 	else if (!ft_strcmp(av[0], "unsetenv"))
 		unset_env(av, env);
 	else if (!ft_strcmp(av[0], "env"))
-		return (1);
+		env_command(av, *env);
 	else if (!ft_strcmp(av[0], "exit"))
 		exit(EXIT_SUCCESS);
 	else
@@ -56,6 +56,7 @@ char	check_path(char *command, char *path)
 				(file.st_mode & S_IXGRP) && (file.st_mode & S_IXOTH))
 			{
 				free(tmp);
+				closedir(dir);
 				return (1);
 			}
 			free(tmp);
@@ -82,7 +83,7 @@ char	go_path(char **av, t_env *env)
 	{
 		if (check_path(content, tmp[i]))
 		{
-			// 	lancer le programe avec execve et fork()
+			run_binary(ft_strstrjoin(tmp[i], "/", content), av, env);
 			ft_strdelpp(&tmp);
 			return (1);
 		}

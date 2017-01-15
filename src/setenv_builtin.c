@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/12 23:30:21 by vdarmaya          #+#    #+#             */
-/*   Updated: 2017/01/13 16:29:40 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2017/01/15 17:15:22 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,14 @@ char	setenv_size(char **av)
 	return (0);
 }
 
+char	*get_tmp(char **av)
+{
+	if (!(*(av + 1)))
+		return (ft_strjoin(*av, "="));
+	else
+		return (ft_strstrjoin(*av, "=", *(av + 1)));
+}
+
 void	set_env(char **av, t_env **env)
 {
 	char	*tmp;
@@ -50,22 +58,20 @@ void	set_env(char **av, t_env **env)
 		return ;
 	first = *env;
 	if (!*++av)
-	{
 		print_env(*env);
-		return ;
-	}
-	if (!(find_env(*env, *av)))
+	else if (!(find_env(*env, *av)))
 	{
-		while ((*env)->next)
+		while (*env && (*env)->next)
 			*env = (*env)->next;
-		if (!(*(av + 1)))
-			tmp = ft_strjoin(*av, "=");
+		tmp = get_tmp(av);
+		if (!*env)
+			*env = new_env(tmp);
 		else
-			tmp = ft_strstrjoin(*av, "=", *(av + 1));
-		(*env)->next = new_env(tmp);
+			(*env)->next = new_env(tmp);
 		free(tmp);
 	}
 	else
 		override_env(av, env);
-	*env = first;
+	if (first)
+		*env = first;
 }

@@ -6,7 +6,7 @@
 #    By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/10 08:23:40 by achauvea          #+#    #+#              #
-#    Updated: 2017/01/13 16:02:03 by vdarmaya         ###   ########.fr        #
+#    Updated: 2017/01/14 17:32:47 by vdarmaya         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,8 +16,8 @@ LIBDIR = ./libft/
 SRCDIR = ./src/
 INCDIR = ./include/
 
-SRC = main.c get_next_line.c core.c env.c list.c error.c echo_builtin.c \
-		setenv_builtin.c unsetenv_builtin.c
+SRC = main.c get_next_line.c core.c env_utils.c list.c error.c echo_builtin.c \
+		setenv_builtin.c unsetenv_builtin.c binary.c cd_builtin.c env.c
 
 SRCS = $(addprefix $(SRCDIR), $(SRC))
 

@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/20 00:22:04 by vdarmaya          #+#    #+#             */
-/*   Updated: 2017/01/13 21:35:51 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2017/01/14 00:13:25 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int			check_end(char **line, t_nextline *list)
 	else if (ft_strlen(*line) > 0 && ft_strlen(tmp) == 0)
 		tmp2 = ft_strdup(*line);
 	else
-		tmp2 = ft_strdup("");	
+		tmp2 = ft_strdup("");
 	free(tmp);
 	free(*line);
 	*line = tmp2;

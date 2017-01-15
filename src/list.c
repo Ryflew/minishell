@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/11 21:47:16 by vdarmaya          #+#    #+#             */
-/*   Updated: 2017/01/13 23:56:26 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2017/01/15 15:59:03 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,16 @@ void	del_env(t_env *todel)
 	free(todel->var_content);
 	free(todel->all);
 	free(todel);
+}
+
+void	del_all_env(t_env **list)
+{
+	t_env	*tmp;
+
+	while (*list)
+	{
+		tmp = (*list)->next;
+		del_env(*list);
+		*list = tmp;
+	}
 }

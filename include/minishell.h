@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/10 19:30:46 by vdarmaya          #+#    #+#             */
-/*   Updated: 2017/01/13 16:44:17 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2017/01/15 16:27:55 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,14 @@ void				print_env(t_env *env);
 void				set_env(char **av, t_env **env);
 void				unset_env(char **av, t_env **env);
 void				del_env(t_env *todel);
-char				*find_env(t_env *env, char *name);
 void				echo(char **av, t_env *env);
+void				run_binary(char *path, char **av, t_env *env);
+void				del_all_env(t_env **list);
+void				env_command(char **av, t_env *env);
+void				cd(char **av, t_env *env);
+char				*find_env(t_env *env, char *name);
+char				**conv_env(t_env *env);
+char				go_path(char **av, t_env *env);
 t_env				*get_env(char **env);
 t_env				*new_env(char *str);
 

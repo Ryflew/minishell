@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/04 19:09:28 by vdarmaya          #+#    #+#             */
-/*   Updated: 2017/01/12 18:37:39 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2017/01/14 00:10:21 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,7 @@ char				*ft_strtrim(char const *s);
 char				*ft_strsub(char const *s, unsigned int start, size_t len);
 char				*ft_strmap(char const *s, char (*f)(char));
 char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
-char				*ft_strstrjoin(char const *s1, char const *s2,
-						char const *s3);
+char				*ft_strstrjoin(char *s1, char *s2, char *s3);
 void				*ft_memset (void *s, int c, size_t n);
 void				*ft_memcpy(void *dest, const void *src, size_t n);
 void				*ft_memccpy(void *dest, const void *src, int c, size_t n);
