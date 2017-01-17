@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/14 15:12:00 by vdarmaya          #+#    #+#             */
-/*   Updated: 2017/01/15 23:46:03 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2017/01/17 21:45:23 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,23 @@
 #include <stdlib.h>
 #include "../include/minishell.h"
 
-void	change_path(char *path, t_env *env)
+void	change_path(char *path, t_env *env, char **prompt)
 {
 	char	**av;
+	char	buff[4097];
 
+	change_prompt(path, env);
 	if(!(av = (char**)malloc(sizeof(char*) * 4)))
 		exit(EXIT_FAILURE);
 	av[0] = ft_strdup("setenv");
 	av[1] = ft_strdup("PWD");
-	if (path[0] == '/')
-		av[2] = ft_strdup(path);
-	else
-		av[2] = ft_strjoin("/", path);
+	av[2] = ft_strdup(getcwd(buff, 4097));
 	av[3] = NULL;
+	if (*prompt)
+		free(*prompt);
+	*prompt = get_with_tilde(getcwd(buff, 4097), env);
 	set_env(av, &env);
 	ft_strdelpp(&av);
-	chdir(path);
 }
 
 char	cd_path_validity(char *path)
@@ -44,22 +45,7 @@ char	cd_path_validity(char *path)
 	return (1);
 }
 
-void	cd_home(t_env *env)
-{
-	char	*content;
-
-	if (!(content = find_env(env, "HOME")))
-		errexit("cd", "HOME not set.");
-	else
-	{
-		if (cd_path_validity(content))
-			change_path(content, env);
-		else
-			errexit("cd", "Can't change to home directory.");
-	}
-}
-
-void	cd_current_dir(char *path, t_env *env)
+void	cd_current_dir(char *path, t_env *env, char **prompt)
 {
 	char	*cwd;
 	char	buff[4097];
@@ -69,19 +55,15 @@ void	cd_current_dir(char *path, t_env *env)
 	{
 		cwd = getcwd(buff, 4097);
 		if (cwd)
-		{
-			cwd = ft_strstrjoin(cwd, "/", path);
-			change_path(cwd, env);
-		}
+			change_path(path, env, prompt);
 		else
 			errexit("cd", "Absolute path too large.");
-		free(cwd);
 	}
 	else
 		errexit("cd", "No such file or directory.");
 }
 
-void	cd_tilde(char *str, t_env *env)
+void	cd_tilde(char *str, t_env *env, char **prompt)
 {
 	char	*tmp;
 	char	*tmp2;
@@ -91,21 +73,27 @@ void	cd_tilde(char *str, t_env *env)
 		errexit("cd", "HOME not set.");
 		return ;
 	}
-	tmp2 = ft_strjoin(tmp, str + 1);
-	change_path(tmp2, env);
+	if (!str)
+		tmp2 = ft_strdup(tmp);
+	else
+		tmp2 = ft_strjoin(tmp, str + 1);
+	if (cd_path_validity(tmp2))
+		change_path(tmp2, env, prompt);
+	else
+		errexit("cd", "Home directory invalid.");
 	free(tmp2);
 }
 
-void	cd(char **av, t_env *env)
+void	cd(char **av, t_env *env, char **path)
 {
-	if (!*++av || (*av[0] == '~' && !(*(*av + 1))))
-		cd_home(env);
+	if (!*++av || (*av[0] == '~'))
+		cd_tilde(*av, env, path);
 	else if (*(av + 1))
 		errexit("cd", "Too many arguments.");
 	else if (*av[0] == '/')
 	{
 		if (cd_path_validity(*av))
-			change_path(*av, env);		
+			change_path(*av, env, path);		
 		else
 		{
 			if (!lstat(*av, NULL))
@@ -114,8 +102,6 @@ void	cd(char **av, t_env *env)
 				errexit("cd", "No such file or directory.");
 		}
 	}
-	else if (*av[0] == '~')
-		cd_tilde(*av, env);
 	else
-		cd_current_dir(*av, env);
+		cd_current_dir(*av, env, path);
 }

@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/10 21:16:56 by vdarmaya          #+#    #+#             */
-/*   Updated: 2017/01/15 16:27:54 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2017/01/16 19:18:43 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,12 @@
 #include <unistd.h>
 #include "../include/minishell.h"
 
-char	go_builtins(char **av, t_env **env)
+char	go_builtins(char **av, t_env **env, char **path)
 {
-	(void)env;
 	if (!ft_strcmp(av[0], "echo"))
 		echo(av, *env);
 	else if (!ft_strcmp(av[0], "cd"))
-		cd(av, *env);
+		cd(av, *env, path);
 	else if (!ft_strcmp(av[0], "setenv"))
 		set_env(av, env);
 	else if (!ft_strcmp(av[0], "unsetenv"))
@@ -52,8 +51,9 @@ char	check_path(char *command, char *path)
 		if (!ft_strcmp(ent->d_name, command))
 		{
 			tmp = ft_strstrjoin(path, "/", ent->d_name);
-			if (!stat(tmp, &file) && (file.st_mode & S_IXUSR) && \
-				(file.st_mode & S_IXGRP) && (file.st_mode & S_IXOTH))
+			if (!stat(tmp, &file) && S_ISREG(file.st_mode) && is_binary(tmp) \
+				&& (file.st_mode & S_IXUSR) && (file.st_mode & S_IXGRP) \
+				&& (file.st_mode & S_IXOTH))
 			{
 				free(tmp);
 				closedir(dir);
@@ -92,13 +92,14 @@ char	go_path(char **av, t_env *env)
 	return (0);
 }
 
-void	go_core(char *command, t_env **env)
+void	go_core(char *command, t_env **env, char **path)
 {
 	char	**av;
-	int		i;
 
-	av = ft_strsplit(command, ' '); // Faire le traitement pour les guillemets
-	if (go_builtins(av, env))
+	av = clear_command(command, -1); // Faire le traitement pour les guillemets
+	if (!(*av && **av))
+		;
+	else if (go_builtins(av, env, path))
 		;
 	else if (go_path(av, *env))
 		;
@@ -107,8 +108,5 @@ void	go_core(char *command, t_env **env)
 		ft_putstr(av[0]);
 		ft_putendl(": Command not found.");
 	}
-	i = -1;
-	while (av[++i])
-		ft_strdel(&av[i]);
-	free(av);
+	ft_strdelpp(&av);
 }

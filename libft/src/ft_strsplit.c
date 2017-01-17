@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/07 22:51:03 by vdarmaya          #+#    #+#             */
-/*   Updated: 2016/11/12 18:56:48 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2017/01/16 00:57:09 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ static size_t	ft_countwords(const char *str, char c)
 		if ((str[i] != c) && (letters != 1))
 			letters = 1;
 	}
+	if (i == 0)
+		return (0);
 	return (count);
 }
 

@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/14 17:30:11 by vdarmaya          #+#    #+#             */
-/*   Updated: 2017/01/14 17:30:12 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2017/01/16 18:53:07 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ t_env	*get_env(char **env)
 	t_env	*first;
 	t_env	*elem;
 
+	if (!*env)
+		return (NULL);
 	if (*env)
 	{
 		first = new_env(*env);

@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/04 19:09:28 by vdarmaya          #+#    #+#             */
-/*   Updated: 2017/01/14 00:10:21 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2017/01/17 18:27:26 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,9 @@ void				ft_lstaddend(t_list **blst, void const *content,
 						size_t content_size);
 void				ft_lstaddmid(t_list **alst, t_list *previous, t_list *new);
 void				ft_bzero(void *s, size_t n);
+char				ft_strdiff(char *str, int c);
+char				ft_strcont(char *s1, char *s2);
+char				*ft_delchar(char *str, int c);
 char				*ft_strdup(char *src);
 char				*ft_strcpy(char *dest, const char *src);
 char				*ft_strncpy(char *dest, const char *src, size_t n);
