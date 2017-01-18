@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/10 19:30:46 by vdarmaya          #+#    #+#             */
-/*   Updated: 2017/01/17 21:33:17 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2017/01/18 05:25:03 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ char				*find_env(t_env *env, char *name);
 char				*get_with_tilde(char *path, t_env *env);
 char				**conv_env(t_env *env);
 char				**clear_command(char *command, int j);
+char				**next_command(char ***av, int *i, int *k);
 t_env				*get_env(char **env);
 t_env				*new_env(char *str);
 

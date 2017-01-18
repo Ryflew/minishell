@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/10 19:32:42 by vdarmaya          #+#    #+#             */
-/*   Updated: 2017/01/17 22:03:23 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2017/01/18 06:08:33 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,7 @@ int		main(int ac, char **av, char **sysenv)
 /*
 ** TODO :
 **	BONUS:
-** - Gestion des signaux... (CTRL-C)
-** - Faire la verification si les fichier dans PATH sont bien des binaires
-** - La completion -> je pense osef
 ** - Séparation par un ';'
-** - Mettre le path dans le prompt
+** - Gestion des signaux (CTRL-C...)
+** - La completion -> je pense osef
 */

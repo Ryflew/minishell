@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/10 21:16:56 by vdarmaya          #+#    #+#             */
-/*   Updated: 2017/01/16 19:18:43 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2017/01/18 05:39:52 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,18 +95,28 @@ char	go_path(char **av, t_env *env)
 void	go_core(char *command, t_env **env, char **path)
 {
 	char	**av;
+	char	**tmp;
+	int		i;
+	int		j;
 
-	av = clear_command(command, -1); // Faire le traitement pour les guillemets
-	if (!(*av && **av))
-		;
-	else if (go_builtins(av, env, path))
-		;
-	else if (go_path(av, *env))
-		;
-	else
+	i = 0;
+	j = 0;
+	av = clear_command(command, -1);
+	while (av[j])
 	{
-		ft_putstr(av[0]);
-		ft_putendl(": Command not found.");
+		tmp = next_command(&av, &i, &j);
+		if (!tmp)
+			continue ;
+		if (go_builtins(tmp, env, path))
+			;
+		else if (go_path(tmp, *env))
+			;
+		else
+		{
+			ft_putstr(av[0]);
+			ft_putendl(": Command not found.");
+		}
+		ft_strdelpp(&tmp);
 	}
 	ft_strdelpp(&av);
 }
