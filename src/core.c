@@ -6,14 +6,14 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/10 21:16:56 by vdarmaya          #+#    #+#             */
-/*   Updated: 2017/01/18 05:39:52 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2017/01/18 19:51:40 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/types.h>
 #include <dirent.h>
 #include <stdlib.h>
-#include <sys/stat.h> 
+#include <sys/stat.h>
 #include <unistd.h>
 #include "../include/minishell.h"
 
@@ -43,7 +43,6 @@ char	check_path(char *command, char *path)
 	t_stat		file;
 	char		*tmp;
 
-	(void)command;
 	if (!(dir = opendir(path)))
 		return (0);
 	while ((ent = readdir(dir)))

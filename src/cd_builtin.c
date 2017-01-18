@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/14 15:12:00 by vdarmaya          #+#    #+#             */
-/*   Updated: 2017/01/17 21:45:23 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2017/01/18 19:53:46 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	change_path(char *path, t_env *env, char **prompt)
 	char	buff[4097];
 
 	change_prompt(path, env);
-	if(!(av = (char**)malloc(sizeof(char*) * 4)))
+	if (!(av = (char**)malloc(sizeof(char*) * 4)))
 		exit(EXIT_FAILURE);
 	av[0] = ft_strdup("setenv");
 	av[1] = ft_strdup("PWD");
@@ -93,7 +93,7 @@ void	cd(char **av, t_env *env, char **path)
 	else if (*av[0] == '/')
 	{
 		if (cd_path_validity(*av))
-			change_path(*av, env, path);		
+			change_path(*av, env, path);
 		else
 		{
 			if (!lstat(*av, NULL))

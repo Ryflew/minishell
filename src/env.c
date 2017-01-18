@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/14 17:32:49 by vdarmaya          #+#    #+#             */
-/*   Updated: 2017/01/15 17:20:21 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2017/01/18 20:15:38 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,32 @@ void	add_new_var(char ***av, t_env **env)
 	ft_strdelpp(&new_av);
 }
 
+void	env_command2(char **av, t_env **cpy)
+{
+	while (*av)
+	{
+		if (!ft_strcmp(*av, "-i"))
+		{
+			del_all_env(cpy);
+			*cpy = NULL;
+		}
+		else if (!ft_strcmp(*av, "env"))
+		{
+			env_command(av, *cpy);
+			break ;
+		}
+		else if (ft_strchr(*av, '='))
+			add_new_var(&av, cpy);
+		else
+		{
+			if (!go_path(av, *cpy))
+				errexit("env", "PATH not set.");
+			break ;
+		}
+		av++;
+	}
+}
+
 void	env_command(char **av, t_env *env)
 {
 	t_env *cpy;
@@ -64,28 +90,7 @@ void	env_command(char **av, t_env *env)
 	else
 	{
 		cpy = cpy_env(env);
-		while (*av)
-		{
-			if (!ft_strcmp(*av, "-i"))
-			{
-				del_all_env(&cpy);
-				cpy = NULL;
-			}
-			else if (!ft_strcmp(*av, "env"))
-			{
-				env_command(av, cpy);
-				break ;
-			}
-			else if (ft_strchr(*av, '='))
-				add_new_var(&av, &cpy);	
-			else
-			{
-				if (!go_path(av, cpy))
-					errexit("env", "PATH not set.");
-				break ;
-			}
-			av++;
-		}
+		env_command2(av, &cpy);
 		del_all_env(&cpy);
 	}
 }

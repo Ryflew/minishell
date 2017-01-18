@@ -6,7 +6,7 @@
 #    By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/10 08:23:40 by achauvea          #+#    #+#              #
-#    Updated: 2017/01/17 23:16:35 by vdarmaya         ###   ########.fr        #
+#    Updated: 2017/01/18 19:49:18 by vdarmaya         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ INCDIR = ./include/
 
 SRC = main.c get_next_line.c core.c env_utils.c list.c error.c echo_builtin.c \
 		setenv_builtin.c unsetenv_builtin.c binary.c cd_builtin.c \
-		env.c utils.c semicolon.c
+		env.c utils.c semicolon.c cd2_builtin.c
 
 SRCS = $(addprefix $(SRCDIR), $(SRC))
 
