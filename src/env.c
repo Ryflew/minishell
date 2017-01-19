@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/14 17:32:49 by vdarmaya          #+#    #+#             */
-/*   Updated: 2017/01/18 20:15:38 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2017/01/19 22:43:40 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,33 +55,55 @@ void	add_new_var(char ***av, t_env **env)
 	ft_strdelpp(&new_av);
 }
 
+void	u_opt(char ***av, t_env **env)
+{
+	char	**out;
+
+	(void)env;
+	if (!*(*av + 1))
+		print_usage('u');
+	else
+	{
+		if (!(out = (char**)malloc(sizeof(char*) * 3)))
+			exit(EXIT_FAILURE);
+		out[0] = ft_strdup("unsetenv");
+		out[1] = ft_strdup(*++*av);
+		out[2] = NULL;
+		unset_env(out, env);
+		ft_strdelpp(&out);
+	}
+}
+
 void	env_command2(char **av, t_env **cpy)
 {
 	while (*av)
 	{
-		if (!ft_strcmp(*av, "-i"))
-		{
-			del_all_env(cpy);
+		if (!ft_strcmp(*av, "-i") && del_all_env(cpy))
 			*cpy = NULL;
-		}
-		else if (!ft_strcmp(*av, "env"))
-		{
-			env_command(av, *cpy);
+		else if (!ft_strcmp(*av, "-u"))
+			u_opt(&av, cpy);
+		else if (**av == '-' && *(*av + 1))
+			print_usage(*(*av + 1));
+		else if (!ft_strcmp(*av, "env") && env_command(av, *cpy))
 			break ;
-		}
 		else if (ft_strchr(*av, '='))
 			add_new_var(&av, cpy);
 		else
 		{
 			if (!go_path(av, *cpy))
-				errexit("env", "PATH not set.");
+			{
+				if (!find_env(*cpy, "HOME"))
+					errexit("cd", "HOME not set.");
+				else
+					errexit(*av, "No such file or directory.");
+			}
 			break ;
 		}
 		av++;
 	}
 }
 
-void	env_command(char **av, t_env *env)
+char	env_command(char **av, t_env *env)
 {
 	t_env *cpy;
 
@@ -93,4 +115,5 @@ void	env_command(char **av, t_env *env)
 		env_command2(av, &cpy);
 		del_all_env(&cpy);
 	}
+	return (1);
 }

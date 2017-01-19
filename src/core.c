@@ -6,15 +6,14 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/10 21:16:56 by vdarmaya          #+#    #+#             */
-/*   Updated: 2017/01/19 06:06:03 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2017/01/20 00:30:23 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/types.h>
-#include <stdlib.h>
-#include <dirent.h>
-#include <sys/stat.h>
 #include <unistd.h>
+#include <sys/stat.h>
+#include <dirent.h>
+#include <stdlib.h>
 #include "../include/minishell.h"
 
 char	go_builtins(char **av, t_env **env, char **path)
@@ -30,7 +29,7 @@ char	go_builtins(char **av, t_env **env, char **path)
 	else if (!ft_strcmp(av[0], "env"))
 		env_command(av, *env);
 	else if (!ft_strcmp(av[0], "exit"))
-		exit(EXIT_SUCCESS);
+		exit_command(av);
 	else
 		return (0);
 	return (1);
@@ -78,6 +77,8 @@ char	go_path(char **av, t_env *env)
 	char	**tmp;
 	int		i;
 
+	if (is_absolute(av, env))
+		return (1);
 	if (!(content = find_env(env, "PATH")))
 		return (0);
 	tmp = ft_strsplit(content, ':');

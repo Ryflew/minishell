@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/16 02:29:50 by vdarmaya          #+#    #+#             */
-/*   Updated: 2017/01/19 05:59:50 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2017/01/19 21:29:11 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,25 @@
 #include <unistd.h>
 #include <dirent.h>
 #include "../include/minishell.h"
+
+void	exit_command(char **av)
+{
+	int		i;
+
+	if (!*++av)
+		exit(EXIT_SUCCESS);
+	i = 0;
+	while (*av + i && ((*(*av + i) >= '0' && *(*av + i) <= '9') || \
+			*(*av + i) == '-'))
+		++i;
+	if (!*(*av + i) && !*(av + 1))
+		exit(ft_atoi(*av));
+	else if ((**av >= '0' && **av <= '9') && *(*av + i))
+		errexit("exit", "Badly formed number.");
+	else if (*(av + 1) || (*(*av + i) < '0' || *(*av + i) > '9' || \
+			*(*av + i) != '-'))
+		errexit("exit", "Expression Syntax.");
+}
 
 char	cd_path_validity(char *path)
 {

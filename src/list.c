@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/11 21:47:16 by vdarmaya          #+#    #+#             */
-/*   Updated: 2017/01/18 19:50:55 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2017/01/19 19:37:09 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	del_env(t_env *todel)
 	free(todel);
 }
 
-void	del_all_env(t_env **list)
+char	del_all_env(t_env **list)
 {
 	t_env	*tmp;
 
@@ -49,4 +49,5 @@ void	del_all_env(t_env **list)
 		del_env(*list);
 		*list = tmp;
 	}
+	return (1);
 }

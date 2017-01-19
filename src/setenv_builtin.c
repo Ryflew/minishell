@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/12 23:30:21 by vdarmaya          #+#    #+#             */
-/*   Updated: 2017/01/15 17:15:22 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2017/01/19 22:30:00 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,28 @@ void	override_env(char **av, t_env **env)
 	(*env)->all = ft_strstrjoin((*env)->var_name, "=", (*env)->var_content);
 }
 
+char	setenv_name(char **av)
+{
+	char	*tmp;
+	int		i;
+
+	i = 0;
+	tmp = *(av + 1);
+	if (ft_strchr(tmp, '='))
+		i = ft_strchr(tmp, '=') - tmp;
+	else
+		i = ft_strlen(*(av + 1));
+	while (--i >= 0)
+	{
+		if (*(tmp + i) >= '0' && *(tmp + i) <= '9')
+		{
+			errexit("setenv", "Variable name must begin with a letter.");
+			return (1);
+		}
+	}
+	return (0);
+}
+
 char	setenv_size(char **av)
 {
 	int		i;
@@ -38,6 +60,8 @@ char	setenv_size(char **av)
 		errexit("setenv", "Too many arguments.");
 		return (1);
 	}
+	if (*(av + 1))
+		return (setenv_name(av));
 	return (0);
 }
 
@@ -61,6 +85,8 @@ void	set_env(char **av, t_env **env)
 		print_env(*env);
 	else if (!(find_env(*env, *av)))
 	{
+		if (check_alpha(*av))
+			return ;
 		while (*env && (*env)->next)
 			*env = (*env)->next;
 		tmp = get_tmp(av);
