@@ -6,13 +6,13 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/10 21:16:56 by vdarmaya          #+#    #+#             */
-/*   Updated: 2017/01/18 19:51:40 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2017/01/19 06:06:03 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/types.h>
-#include <dirent.h>
 #include <stdlib.h>
+#include <dirent.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include "../include/minishell.h"
@@ -36,6 +36,13 @@ char	go_builtins(char **av, t_env **env, char **path)
 	return (1);
 }
 
+char	check_path_end(char **tmp, DIR **dir)
+{
+	free(*tmp);
+	closedir(*dir);
+	return (1);
+}
+
 char	check_path(char *command, char *path)
 {
 	DIR			*dir;
@@ -50,13 +57,13 @@ char	check_path(char *command, char *path)
 		if (!ft_strcmp(ent->d_name, command))
 		{
 			tmp = ft_strstrjoin(path, "/", ent->d_name);
-			if (!stat(tmp, &file) && S_ISREG(file.st_mode) && is_binary(tmp) \
-				&& (file.st_mode & S_IXUSR) && (file.st_mode & S_IXGRP) \
-				&& (file.st_mode & S_IXOTH))
+			if (!stat(tmp, &file) && S_ISREG(file.st_mode) && is_binary(tmp) &&
+				!access(tmp, R_OK | X_OK))
+				return (check_path_end(&tmp, &dir));
+			else if (access(tmp, R_OK | X_OK) == -1)
 			{
-				free(tmp);
-				closedir(dir);
-				return (1);
+				errexit(tmp, "Permission denied.");
+				return (check_path_end(&tmp, &dir));
 			}
 			free(tmp);
 		}

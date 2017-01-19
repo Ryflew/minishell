@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/16 02:29:50 by vdarmaya          #+#    #+#             */
-/*   Updated: 2017/01/18 19:49:02 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2017/01/19 05:59:50 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,18 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <dirent.h>
 #include "../include/minishell.h"
+
+char	cd_path_validity(char *path)
+{
+	DIR		*dir;
+
+	if (!(dir = opendir(path)))
+		return (0);
+	closedir(dir);
+	return (1);
+}
 
 char	is_binary(char *path)
 {

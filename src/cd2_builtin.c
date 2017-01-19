@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/18 19:48:48 by vdarmaya          #+#    #+#             */
-/*   Updated: 2017/01/18 20:08:55 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2017/01/19 05:59:45 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ void	treat_current(char *path)
 			tmp = ft_strjoin(cwd, path);
 		else
 			tmp = ft_strstrjoin(cwd, "/", path);
-		chdir(tmp);
+		if (!access(tmp, R_OK | R_OK))
+			chdir(tmp);
 		free(tmp);
 	}
 }
@@ -73,7 +74,7 @@ void	change_prompt(char *path, t_env *env)
 	char	*tmp;
 	char	*path2;
 
-	if (!(ft_strchr(path, '/')) || !ft_strcmp(path, "/"))
+	if (!ft_strchr(path, '/') || !ft_strcmp(path, "/"))
 		treat_current(path);
 	else
 	{

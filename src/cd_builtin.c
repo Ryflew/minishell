@@ -6,13 +6,12 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/14 15:12:00 by vdarmaya          #+#    #+#             */
-/*   Updated: 2017/01/18 19:53:46 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2017/01/19 05:57:34 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <sys/stat.h>
-#include <dirent.h>
 #include <stdlib.h>
 #include "../include/minishell.h"
 
@@ -35,32 +34,43 @@ void	change_path(char *path, t_env *env, char **prompt)
 	ft_strdelpp(&av);
 }
 
-char	cd_path_validity(char *path)
+void	print_cd_error(char *tmp, char *path)
 {
-	DIR		*dir;
+	t_stat	file;
 
-	if (!(dir = opendir(path)))
-		return (0);
-	closedir(dir);
-	return (1);
+	if (!lstat(tmp, &file) && S_ISREG(file.st_mode))
+		errexit(path, "Not a directory.");
+	else if (access(tmp, F_OK) == -1)
+		errexit("cd", "No such file or directory.");
+	else
+		errexit(tmp, "Permission denied.");
 }
 
 void	cd_current_dir(char *path, t_env *env, char **prompt)
 {
 	char	*cwd;
+	char	*tmp;
 	char	buff[4097];
 
-	cwd = NULL;
+	if (!(cwd = getcwd(buff, 4097)))
+	{
+		errexit(path, "Permission denied.");
+		return ;
+	}
 	if (cd_path_validity(path))
 	{
-		cwd = getcwd(buff, 4097);
 		if (cwd)
 			change_path(path, env, prompt);
 		else
 			errexit("cd", "Absolute path too large.");
+		return ;
 	}
+	if (*path == '/')
+		tmp = ft_strdup(path);
 	else
-		errexit("cd", "No such file or directory.");
+		tmp = ft_strstrjoin(cwd, "/", path);
+	print_cd_error(tmp, path);
+	free(tmp);
 }
 
 void	cd_tilde(char *str, t_env *env, char **prompt)
@@ -77,10 +87,7 @@ void	cd_tilde(char *str, t_env *env, char **prompt)
 		tmp2 = ft_strdup(tmp);
 	else
 		tmp2 = ft_strjoin(tmp, str + 1);
-	if (cd_path_validity(tmp2))
-		change_path(tmp2, env, prompt);
-	else
-		errexit("cd", "Home directory invalid.");
+	cd_current_dir(tmp2, env, prompt);
 	free(tmp2);
 }
 

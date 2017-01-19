@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/10 19:32:42 by vdarmaya          #+#    #+#             */
-/*   Updated: 2017/01/18 19:43:45 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2017/01/19 06:06:22 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,3 @@ int		main(int ac, char **av, char **sysenv)
 	}
 	return (0);
 }
-
-/*
-** TODO :
-**	BONUS:
-** - Gestion des signaux (CTRL-C...)
-** - La completion -> je pense osef
-*/
