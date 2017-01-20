@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/12 22:04:04 by vdarmaya          #+#    #+#             */
-/*   Updated: 2017/01/14 00:12:15 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2017/01/21 00:11:35 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,11 @@ void	echo(char **av, t_env *env)
 {
 	char	nflag;
 
-	if (*++av && !ft_strcmp(*av, "-n"))
-	{
-		++av;
+	if (*++av && !ft_strcmp(*av, "-n") && (++av || !av))
 		nflag = 1;
-	}
 	else
 		nflag = 0;
-	if (!*av)
+	if (!*av && !nflag)
 		ft_putchar('\n');
 	while (*av)
 	{
@@ -49,7 +46,11 @@ void	echo(char **av, t_env *env)
 			if (!(*(av + 1)) && !nflag)
 				ft_putendl(*av);
 			else
+			{
 				ft_putstr(*av);
+				if (*(av + 1))
+					ft_putchar(' ');
+			}
 		}
 		++av;
 	}

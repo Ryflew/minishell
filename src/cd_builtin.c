@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/14 15:12:00 by vdarmaya          #+#    #+#             */
-/*   Updated: 2017/01/19 05:57:34 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2017/01/20 20:00:11 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,26 @@ void	change_path(char *path, t_env *env, char **prompt)
 {
 	char	**av;
 	char	buff[4097];
+	char	*tmp;
 
-	change_prompt(path, env);
+	if (!(av = (char**)malloc(sizeof(char*) * 4)))
+		exit(EXIT_FAILURE);
+	av[0] = ft_strdup("setenv");
+	av[1] = ft_strdup("OLDPWD");
+	av[2] = ft_strdup(getcwd(buff, 4097));
+	av[3] = NULL;
+	tmp = ft_strdup(path);
+	set_env(av, &env);
+	ft_strdelpp(&av);
+	change_prompt(tmp, env);
+	free(tmp);
 	if (!(av = (char**)malloc(sizeof(char*) * 4)))
 		exit(EXIT_FAILURE);
 	av[0] = ft_strdup("setenv");
 	av[1] = ft_strdup("PWD");
 	av[2] = ft_strdup(getcwd(buff, 4097));
 	av[3] = NULL;
-	if (*prompt)
-		free(*prompt);
+	free(*prompt);
 	*prompt = get_with_tilde(getcwd(buff, 4097), env);
 	set_env(av, &env);
 	ft_strdelpp(&av);
@@ -97,6 +107,8 @@ void	cd(char **av, t_env *env, char **path)
 		cd_tilde(*av, env, path);
 	else if (*(av + 1))
 		errexit("cd", "Too many arguments.");
+	else if (!ft_strcmp(*av, "-") && find_env(env, "OLDPWD"))
+		change_path(find_env(env, "OLDPWD"), env, path);
 	else if (*av[0] == '/')
 	{
 		if (cd_path_validity(*av))

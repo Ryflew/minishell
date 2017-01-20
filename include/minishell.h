@@ -6,7 +6,7 @@
 /*   By: vdarmaya <vdarmaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/10 19:30:46 by vdarmaya          #+#    #+#             */
-/*   Updated: 2017/01/19 23:45:11 by vdarmaya         ###   ########.fr       */
+/*   Updated: 2017/01/21 00:42:58 by vdarmaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ char				is_binary(char *path);
 char				cd_path_validity(char *path);
 char				check_alpha(char *str);
 char				*find_env(t_env *env, char *name);
+char				*clear_quot(char *str);
 char				*get_with_tilde(char *path, t_env *env);
 char				**conv_env(t_env *env);
 char				**clear_command(char *command, int j);
