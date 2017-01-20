@@ -1,8 +1,8 @@
 Consigne :
 
-• Vous devez programmer un mini interpréteur de commandes UNIX.
+• Vous devez programmer un mini interpréteur de commandes UNIX.\n
 • Cet interpréteur doit afficher un prompt (un simple "$> " par exemple) et attendre
-que vous tapiez une ligne de commande, validée par un retour à la ligne.
+que vous tapiez une ligne de commande, validée par un retour à la ligne.\n
 • Le prompt n’est de nouveau affiché qu’après la fin de l’exécution de la commande.
 • Les lignes de commande sont simples, pas de pipes, pas de redirections ou autres
 fonctions avancées.
